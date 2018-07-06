@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.common.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.default.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.default.mobile.min.css" />
+    <script src="https://kendo.cdn.telerik.com/2018.2.620/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.2.620/js/kendo.all.min.js"></script>
+</head>
+<body>
+    <script id="treeview-template" type="text/kendo-ui-template">
+        <span>
+            #: formatDate(item.creationDate) #
+        </span>
+        <span>#: item.name #</span>
+    </script>
+    <div>
+
+        <ul>
+            <li>
+                <input id="searchDatepicker"/>
+                <input id="searchName" class="k-textbox" />
+                <button class="k-button" id="searchBtn" onclick="search()">Search</button>
+            </li>
+            <li>
+                <button class="k-button" id="addBtn" onclick="add()">Add node</button>
+                <button class="k-button" id="editBtn" onclick="edit()">Edit node</button>
+                <button class="k-button" id="removeBtn" onclick="remove()">Remove node</button>
+                <input id="editDatepicker"/>
+                <input id="editName" class="k-textbox" />
+            </li>
+            <li>
+                <button class="k-button" id="expandAllBtn" onclick="expandAll()">Expand all nodes</button>
+            </li>
+            <li>
+                <button class="k-button" id="collapseAllBtn" onclick="collapseAll()">Collapse all nodes</button>
+            </li>
+        </ul>
+    </div>
+
+    <div class="demo-section k-content">
+        <div id="treeview"></div>
+    </div>
+
+
+    <script>
+        function formatDate(date) {
+            var year = date.getFullYear();
+
+            var month = (1 + date.getMonth()).toString();
+            month = month.length > 1 ? month : '0' + month;
+
+            var day = date.getDate().toString();
+            day = day.length > 1 ? day : '0' + day;
+
+            return day + '.' + month + '.' + year;
+        }
+        function get(data, id) {
+            if (!id) {
+                return data;
+            } else {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].id == id) {
+                        return data[i].items;
+                    } else if (data[i].items) {
+                        var result = get(data[i].items, id);
+                        if (result) return result;
+                    }
+                }
+            }
+        }
+        let localData = [
+            {
+                expanded: true,
+                id: 1,
+                name: "Node 1",
+                hasChildren: true,
+                creationDate: new Date(),
+                items: [
+                    {
+                        id: 101,
+                        name: "Node 1.1",
+                        hasChildren: true,
+                        creationDate: new Date(),
+                        items: [
+                            { id: 10101, creationDate: new Date(), name: "Node 1.1.1" }
+                        ]
+                    }
+                ]
+            },
+            { id: 2, hasChildren: true, creationDate: new Date(), name: "Node 2" },
+            { id: 3, hasChildren: true, creationDate: new Date(), name: "Node 3" }
+        ];
+        let controls = {
+            treeview: {},
+            treeviewData: { },
+            searchName: {},
+            searchDate: {},
+            editDate: {},
+            editName: {}
+        }
+        var scope = {
+            search: {
+                get date() { return controls.searchDate.val() },
+                set date(v) { controls.searchDate.val(v) },
+                get name () {return controls.searchName.val()},
+                set name(v) { controls.searchName.val(v) }
+            },
+            edit: {
+                get date() { return controls.editDate.val() },
+                set date(v) { controls.editDate.val(formatDate(v)) },
+                get name() { return controls.editName.val()  },
+                set name(v) { controls.editName.val(v) }
+            }
+        }
+        
+
+        function init() {
+            let initTree = () => {
+                controls.treeview = $("#treeview").kendoTreeView({
+                    dataSource: createTreeViewSource(),
+                    template: kendo.template($("#treeview-template").html()),
+                    select: select
+                });
+                controls.treeviewData = controls.treeview.data("kendoTreeView");
+            }
+            let initSearch = () => {
+                controls.searchDate = $("#searchDatepicker").kendoDatePicker();
+                controls.searchName = $("#searchName");
+            }
+            let initEdit = () => {
+                controls.editDate = $("#editDatepicker").kendoDatePicker();
+                controls.editName = $("#editName");
+            }
+            initSearch();
+            initEdit();
+            initTree();
+        }
+        
+
+        $(document).ready(()=>init());
+
+        function select(e) {
+            let node = controls.treeviewData.dataItem(e.node);
+            scope.edit.date = node.creationDate;
+            scope.edit.name = node.name;
+        }
+
+        function add() {
+            treeview.append(
+                { name: scope.edit.name, creationDate: scope.edit.date },
+                treeview.select());
+        }
+
+        function edit() {
+
+        }
+
+        function remove() {
+            var selectedNode = treeview.select();
+            treeview.remove(selectedNode);
+        }
+
+        function expandAll() {
+            treeview.expand(".k-item");
+        }
+
+        function collapseAll() {
+            treeview.collapse(".k-item");
+        }
+
+        function createTreeViewSource() {
+            return new kendo.data.HierarchicalDataSource({
+                transport: {
+                    read: function (options) {
+                        var id = options.data.id;
+                        var data = get(localData, id);
+                        if (data) {
+                            options.success(data);
+                        } else {
+                            $.ajax({
+                                type: "GET",
+                                url: "api/department/" + id,
+                                data: {
+                                    name: $("#name").val()
+                                }
+                            }).done(function (data) {
+                                data.forEach(x => x.creationDate = new Date(x.creationDate));
+                                options.success(data);
+                            });
+                        }
+                    }
+                },
+                schema: {
+                    model: {
+                        id: "id"
+                    }
+                }
+            });
+        }
+    </script>
+    <style>
+        .box .k-textbox {
+            width: 100px;
+        }
+    </style>
+</body>
+</html>

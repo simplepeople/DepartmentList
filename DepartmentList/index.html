@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8 />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.common.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.default.min.css" />
+</head>
+<body>
+<input id="name" type="text" value="6"/>
+<button onclick="search()">Search</button>
+<div id="tree"></div>
+
+<script src="https://kendo.cdn.telerik.com/2018.2.620/js/jquery.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2018.2.620/js/kendo.all.min.js"></script>
+<script id="treeview-template" type="text/kendo-ui-template">
+        <span>
+            #: getFormattedDate(item.creationDate) #
+        </span>
+        <span>#: item.text #</span>
+        <button>Edit</button>
+        <span onclick="remove()">Remove</span>
+    </script>
+
+<script>
+    function remove() {
+        var treeview = $("#tree").data("kendoTreeView");
+        if (treeview) {
+            RemoveCheckedItems(treeview, [treeview.dataItem(treeview.select())]);
+        } 
+    }
+    function RemoveCheckedItems(treeview, nodes) {
+        for (var i = 0; i < nodes.length; i++) {
+            var node = nodes[i];
+            if (node.selected) {
+                var item = treeview.findByUid(node.uid);
+                treeview.remove(item);
+            }
+            else if (node.hasChildren) {
+                RemoveCheckedItems(treeview, node.children.view());
+            }
+        }
+    }
+    function search() {
+        init();
+    }
+    function getFormattedDate(date) {
+        var year = date.getFullYear();
+
+        var month = (1 + date.getMonth()).toString();
+        month = month.length > 1 ? month : '0' + month;
+
+        var day = date.getDate().toString();
+        day = day.length > 1 ? day : '0' + day;
+
+        return day + '.' + month + '.' + year;
+    }
+
+    var localData = [
+        {
+            id: 1,
+            text: "Node 1",
+            hasChildren: true,
+            creationDate: new Date(),
+            items: [
+                {
+                    id: 101,
+                    text: "Node 1.1",
+                    hasChildren: true,
+                    creationDate: new Date(),
+                    items: [
+                        { id: 10101, creationDate: new Date(), text: "Node 1.1.1" }
+                    ]
+                }
+            ]
+        },
+        { id: 2, hasChildren: true, creationDate: new Date(), text: "Node 2" },
+        { id: 3, hasChildren: true, creationDate: new Date(), text: "Node 3" }
+    ];
+
+    function get(data, id) {
+        if (!id) {
+            return data;
+        } else {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].id == id) {
+                    return data[i].items;
+                } else if (data[i].items) {
+                    var result = get(data[i].items, id);
+                    if (result) return result;
+                }
+            }
+        }
+    }
+
+    function createSource() {return new kendo.data.HierarchicalDataSource({
+        transport: {
+            read: function(options) {
+                var id = options.data.id;
+                var data = get(localData, id);
+                if (data) {
+                    options.success(data);
+                } else {
+                    $.ajax({
+                        type:"GET",
+                        url: "api/department/" + id,
+                        data: {
+                            name: $("#name").val()
+                        }
+                    }).done(function(data) {
+                        data.forEach(x => x.creationDate = new Date(x.creationDate));
+                        options.success(data);
+                    });
+                }
+            }
+        },
+        schema: {
+            model: {
+                id: "id"
+            }
+        }
+    });}
+
+    function init() {
+        $("#tree").kendoTreeView({
+            dataSource: createSource(),
+            template: kendo.template($("#treeview-template").html())
+        });
+    }
+
+    init();
+</script>
+</body>
+</html>
