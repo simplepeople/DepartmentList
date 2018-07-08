@@ -45,17 +45,8 @@ let localData = [
     { id: 3, hasChildren: true, creationDate: new Date(), name: "Node 3" }
 ];
 let controls = {
-    treeview: {},
-    searchDate: {},
-    searchName: {},
-    searchBtn: {},
-    editDate: {},
-    editName: {},
-    editBtn: {},
-    addBtn: {},
-    removeBtn: {},
-    saveBtn: {},
-    cancelBtn : {},
+    treeview: {}, searchDate: {}, searchName: {}, searchBtn: {},
+    editDate: {}, editName: {}, editBtn: {}, addBtn: {}, removeBtn: {}, saveBtn: {}, cancelBtn : {},
     init: function () {
         let initInput = (input) => $(input).addClass("k-textbox");
         let initBtn = (btn) => $(btn).kendoButton().data("kendoButton");
@@ -187,11 +178,6 @@ function select(e) {
 
 function add() {
     scope.action.mode = actionModes.add;
-
-
-    //controls.treeview.append(
-    //    { name: scope.edit.name, creationDate: scope.edit.date },
-    //    controls.treeview.select());
 }
 
 function edit() {
@@ -202,6 +188,14 @@ function remove() {
     controls.treeview.remove(scope.selectedNode);
     scope.action.mode = actionModes.remove;
     scope.action.mode = actionModes.none;
+
+    $.ajax({
+        type: "DELETE",
+        url: "api/department/" + 1,
+        data: {
+            //name: $("#name").val()
+        }
+    });
 }
 
 function search() {
@@ -209,7 +203,7 @@ function search() {
 }
 
 function save() {
-
+    
 }
 
 function cancel() {

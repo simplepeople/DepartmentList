@@ -1,82 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
-using Newtonsoft.Json;
+using DepartmentList.Models;
 
 namespace DepartmentList.Controllers
 {
-    public class Department
-    {
-        [JsonProperty("id")]
-        public int Id { get; set; }
-        [JsonProperty("creationDate")]
-        public DateTime CreationDate { get; set; }
-        [JsonProperty("name")]
-        public string Name { get; set; }
-        [JsonProperty("hasChildren")]
-        public bool HasChildDepartments { get; set; }
-        [JsonProperty("parentId")]
-        public int ParentId { get; set; }
-
-        public Department(int id, int parentId, bool hasChildDepartments = false)
-        {
-            Id = id;
-            ParentId = parentId;
-            Name = id.ToString();
-            CreationDate = DateTime.Now.AddDays(-id);
-            HasChildDepartments = hasChildDepartments;
-        }
-    }
-
     public class DepartmentController : ApiController
     {
         [HttpGet]
-        public IEnumerable<Department> Get([FromUri] string name = null, [FromUri] DateTime? startDate = null,
-            [FromUri] DateTime? endDate = null)
+        public DepartmentDto Get(int id)
         {
-            return Get(0, name, startDate, endDate);
+            return null;
         }
 
         [HttpGet]
-        public IEnumerable<Department> Get(int id, [FromUri] string name = null, [FromUri] DateTime? startDate = null,
-            [FromUri]DateTime? endDate = null)
+        public IEnumerable<DepartmentDto> Get(int parentId, string name, DateTime creationDate)
         {
-            IEnumerable<Department> result;
-            switch (id)
-            {
-                case 0:
-                    result = Zero;
-                    break;
-                case 1:
-                    result = First;
-                    break;
-                case 2:
-                    result = Second;
-                    break;
-                default:
-                    result = new List<Department>();
-                    break;
-            }
-
-            return result.Where(x =>
-                (String.IsNullOrWhiteSpace(name) || x.Name.Contains(name)) &&
-                (!startDate.HasValue || startDate <= x.CreationDate) &&
-                (!endDate.HasValue || x.CreationDate >= endDate));
+            return null;
         }
 
-        private static IEnumerable<Department> Full => Zero.Union(First.Union(Second));
-
-        private static IEnumerable<Department> Zero => new[]
-            {new Department(1, 0, true), new Department(2, 0, true), new Department(3, 0)};
-
-        private static IEnumerable<Department> First => new[]
+        public IEnumerable<DepartmentDto> Get(string name, DateTime creationDate)
         {
-            new Department(4, 1), new Department(5, 1),
-        };
+            return Get(0, name, creationDate);
+        }
 
-        private static IEnumerable<Department> Second => new[]
-            {new Department(6, 2)};
+        //[HttpGet]
+        //public IEnumerable<Department> Get([FromUri] string name = null, [FromUri] DateTime? startDate = null,
+        //    [FromUri] DateTime? endDate = null)
+        //{
+        //    return Get(0, name, startDate, endDate);
+        //}
+
+        //[HttpGet]
+        //public IEnumerable<Department> Get(int id, [FromUri] string name = null, [FromUri] DateTime? startDate = null,
+        //    [FromUri]DateTime? endDate = null)
+        //{
+        //    IEnumerable<Department> result = new List<Department>();
+        //    //todo
+        //    return result.Where(x =>
+        //        (String.IsNullOrWhiteSpace(name) || x.Name.Contains(name)) &&
+        //        (!startDate.HasValue || startDate <= x.CreationDate) &&
+        //        (!endDate.HasValue || x.CreationDate >= endDate));
+        //}
 
 
         // POST api/<controller>
@@ -95,6 +62,10 @@ namespace DepartmentList.Controllers
         [HttpDelete]
         public void Delete(int id)
         {
+            using (var context = new DepartmentContext())
+            {
+                var k = context.Departments.ToList();
+            }
         }
     }
 }
