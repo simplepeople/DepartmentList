@@ -3,7 +3,7 @@ using System.Data.Entity.Hierarchy;
 
 namespace DepartmentList.Models
 {
-    public class DepartmentContextInitializer : DropCreateDatabaseAlways<DepartmentContext>
+    public class DepartmentContextInitializer : CreateDatabaseIfNotExists<DepartmentContext>
     {
         protected override void Seed(DepartmentContext context)
         {
@@ -21,7 +21,6 @@ namespace DepartmentList.Models
             context.Departments.Add(new DepartmentEntity { Name = "Dep4", Node = new HierarchyId("/1/1/1/") });
             context.Departments.Add(new DepartmentEntity { Name = "Dep5", Node = new HierarchyId("/2/1/") });
             context.Departments.Add(new DepartmentEntity { Name = "Dep6", Node = new HierarchyId("/1/2/") });
-            context.SaveChanges();
         }
     }
 }

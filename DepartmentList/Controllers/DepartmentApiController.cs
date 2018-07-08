@@ -64,7 +64,8 @@ namespace DepartmentList.Controllers
         {
             using (var context = new DepartmentContext())
             {
-                var k = context.Departments.ToList();
+                Database.SetInitializer(new DepartmentContextInitializer());
+                context.Database.Initialize(true);
             }
         }
     }
