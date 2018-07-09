@@ -12,8 +12,11 @@ namespace DepartmentList.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        CreationDate = c.DateTime(nullable: false),
                         Name = c.String(),
                         Node = c.HierarchyId(),
+                        ParentId = c.Int(nullable: false),
+                        HasChilds = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             

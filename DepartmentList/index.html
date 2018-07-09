@@ -1,37 +1,45 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Список департаментов</title>
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.common.min.css" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.default.min.css" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.default.mobile.min.css" />
-    <link rel="stylesheet" href="Content/site.css"/>
+    <link rel="stylesheet" href="Content/site.css" />
     <script src="https://kendo.cdn.telerik.com/2018.2.620/js/jquery.min.js"></script>
     <script src="Scripts/site.js" type="text/javascript"></script>
     <script src="https://kendo.cdn.telerik.com/2018.2.620/js/kendo.all.min.js"></script>
 </head>
 <body>
     <script id="treeview-template" type="text/kendo-ui-template">
-        <span>
+        <span class="depDate">
             #: date.toStr(item.creationDate) #
         </span>
-        <span>#: item.name #</span>
+        <span class="depName">
+            #: item.name #
+        </span>
     </script>
     <div>
         <ul>
             <li>
-                <input id="searchDatepicker" />
-                <input id="searchName" />
-                <button id="searchBtn" onclick="search()">Найти</button>
+                Отображать дату
+                <input id="showDate" type="checkbox" onclick="showDate()" checked="checked" />
+                Отображать название
+                <input id="showName" type="checkbox" onclick="showName()" checked="checked" />
             </li>
             <li>
-                <button id="addBtn" onclick="add()">Добавить</button>
-                <button id="editBtn" onclick="edit()">Редактировать</button>
-                <button id="removeBtn" onclick="remove()">Удалить</button>
+                <input id="searchDatepicker" />
+                <input id="searchName" />
+                <button id="searchBtn" onclick="searchClick()">Найти</button>
+            </li>
+            <li>
+                <button id="addBtn" onclick="addClick()">Добавить</button>
+                <button id="editBtn" onclick="editClick()">Редактировать</button>
+                <button id="removeBtn" onclick="removeClick()">Удалить</button>
                 <input id="editDatepicker" />
                 <input id="editName" />
-                <button id="saveBtn" onclick="save()">Сохранить</button>
-                <button id="cancelBtn" onclick="cancel()">Отмена</button>
+                <button id="saveBtn" onclick="saveClick()">Сохранить</button>
+                <button id="cancelBtn" onclick="cancelClick()">Отмена</button>
             </li>
         </ul>
     </div>

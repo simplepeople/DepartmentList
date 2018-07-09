@@ -171,18 +171,19 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DepartmentApiController.cs" />
+    <Compile Include="DAL\DepartmentEntityService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807080039149_Initial.cs" />
-    <Compile Include="Migrations\201807080039149_Initial.Designer.cs">
-      <DependentUpon>201807080039149_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201807081415255_Initial.cs" />
+    <Compile Include="Migrations\201807081415255_Initial.Designer.cs">
+      <DependentUpon>201807081415255_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\DepartmentContext.cs" />
-    <Compile Include="Models\DepartmentContextInitializer.cs" />
+    <Compile Include="DAL\DepartmentContext.cs" />
+    <Compile Include="DAL\DepartmentContextInitializer.cs" />
     <Compile Include="Models\DepartmentDto.cs" />
-    <Compile Include="Models\DepartmentEntity.cs" />
+    <Compile Include="DAL\DepartmentEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
   </ItemGroup>
@@ -231,8 +232,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201807080039149_Initial.resx">
-      <DependentUpon>201807080039149_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807081415255_Initial.resx">
+      <DependentUpon>201807081415255_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

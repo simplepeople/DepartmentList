@@ -1,4 +1,5 @@
 using System.Data.Entity.Hierarchy;
+using DepartmentList.DAL;
 using DepartmentList.Models;
 
 namespace DepartmentList.Migrations
@@ -8,14 +9,14 @@ namespace DepartmentList.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<DepartmentList.Models.DepartmentContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<DepartmentContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(DepartmentList.Models.DepartmentContext context)
+        protected override void Seed(DepartmentContext context)
         {
             
         }

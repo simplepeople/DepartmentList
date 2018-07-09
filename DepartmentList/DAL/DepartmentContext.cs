@@ -1,7 +1,6 @@
 ﻿using System.Data.Entity;
-using System.Data.Entity.Hierarchy;
 
-namespace DepartmentList.Models
+namespace DepartmentList.DAL
 {
     public class DepartmentContext : DbContext
     {

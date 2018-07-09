@@ -13,7 +13,7 @@ namespace DepartmentList.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201807080039149_Initial"; }
+            get { return "201807081415255_Initial"; }
         }
         
         string IMigrationMetadata.Source
