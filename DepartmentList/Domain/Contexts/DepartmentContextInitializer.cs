@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Data.Entity.Hierarchy;
+using DepartmentList.Domain.Entities;
 
-namespace DepartmentList.DAL
+namespace DepartmentList.Domain.Contexts
 {
-    public class DepartmentContextInitializer : DropCreateDatabaseAlways<DepartmentContext>
+    public class DepartmentContextInitializer : CreateDatabaseIfNotExists<DepartmentContext>
     {
         protected override void Seed(DepartmentContext context)
         {

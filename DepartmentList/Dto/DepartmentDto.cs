@@ -1,10 +1,11 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace DepartmentList.Models
+namespace DepartmentList.Dto
 {
     public class DepartmentDto
     {
+        //todo перенести в маппинг
         [JsonProperty("id")]
         public int Id { get; set; }
         [JsonProperty("creationDate")]
@@ -12,7 +13,7 @@ namespace DepartmentList.Models
         [JsonProperty("name")]
         public string Name { get; set; }
         [JsonProperty("hasChildren")]
-        public bool HasChildDepartments { get; set; }
+        public bool HasChilds { get; set; }
         [JsonProperty("parentId")]
         public int? ParentId { get; set; }
     }

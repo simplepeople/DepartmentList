@@ -3,7 +3,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using DepartmentList.DAL;
+using DepartmentList.Domain.Contexts;
 
 namespace DepartmentList
 {
@@ -16,12 +16,12 @@ namespace DepartmentList
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            IocConfig.ConfigureContainer();
+            AutomapperConfig.InitMapping();
+            JsonMapperConfig.InitMapping();
             SqlProviderServices.SqlServerTypesAssemblyName ="Microsoft.SqlServer.Types, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91";
             SqlServerTypes.Utilities.LoadNativeAssemblies(Server.MapPath("~/bin"));
-            using (var context = new DepartmentContext())
-            {
-                context.Database.Initialize(true);
-            }
+            DepartmentContext.InitDb();
         }
     }
 }

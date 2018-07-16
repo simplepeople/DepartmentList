@@ -1,13 +1,8 @@
-using System.Data.Entity.Hierarchy;
-using DepartmentList.DAL;
-using DepartmentList.Models;
+using DepartmentList.Domain.Contexts;
 
 namespace DepartmentList.Migrations
 {
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<DepartmentContext>
     {

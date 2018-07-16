@@ -1,14 +1,10 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Hierarchy;
 
-namespace DepartmentList.DAL
+namespace DepartmentList.Domain.Entities
 {
-    [Table("Departments")]
-    public class DepartmentEntity
+    public class DepartmentEntity : IEntity
     {
-        [Key]
         public int Id { get; set; }
         public DateTime CreationDate { get; set; }
         public string Name { get; set; }
