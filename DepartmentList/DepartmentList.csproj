@@ -194,14 +194,16 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DepartmentApiController.cs" />
     <Compile Include="Domain\EntityServices\DepartmentEntityService.cs" />
+    <Compile Include="Infrastructure\Extensions\MapExtension.cs" />
+    <Compile Include="Infrastructure\IoC\IDependency.cs" />
     <Compile Include="Services\DepartmentService.cs" />
     <Compile Include="Domain\Entities\IEntity.cs" />
     <Compile Include="Domain\EntityServices\EntityServiceBase.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Extentions\FluentJsonExtension.cs" />
-    <Compile Include="Infrastructure\Extentions\ReflectiveEnumerator.cs" />
+    <Compile Include="Infrastructure\Extensions\FluentJsonExtension.cs" />
+    <Compile Include="Infrastructure\Extensions\ReflectiveEnumerator.cs" />
     <Compile Include="Infrastructure\Mapping\Auto\DepartmentMap.cs" />
     <Compile Include="Infrastructure\Mapping\Json\DepartmentDtoJsonMap.cs" />
     <Compile Include="Migrations\201807081415255_Initial.cs" />

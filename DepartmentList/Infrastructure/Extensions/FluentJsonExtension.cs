@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using FluentJsonNet;
 
-namespace DepartmentList.Infrastructure.Extentions
+namespace DepartmentList.Infrastructure.Extensions
 {
     public static class FluentJsonExtension
     {

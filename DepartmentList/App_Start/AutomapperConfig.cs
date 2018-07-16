@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DepartmentList.Infrastructure.Extentions;
+using DepartmentList.Infrastructure.Extensions;
 
 namespace DepartmentList
 {

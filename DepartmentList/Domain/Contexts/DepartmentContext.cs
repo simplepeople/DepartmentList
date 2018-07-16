@@ -1,9 +1,10 @@
 ﻿using System.Data.Entity;
 using DepartmentList.Domain.Entities;
+using DepartmentList.Infrastructure.IoC;
 
 namespace DepartmentList.Domain.Contexts
 {
-    public class DepartmentContext : DbContext
+    public class DepartmentContext : DbContext, IDependency
     {
         public DbSet<DepartmentEntity> Departments { get; set; }
 

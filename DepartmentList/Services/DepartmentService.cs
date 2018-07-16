@@ -4,10 +4,12 @@ using AutoMapper;
 using DepartmentList.Domain.Entities;
 using DepartmentList.Domain.EntityServices;
 using DepartmentList.Dto;
+using DepartmentList.Infrastructure.Extensions;
+using DepartmentList.Infrastructure.IoC;
 
 namespace DepartmentList.Services
 {
-    public class DepartmentService
+    public class DepartmentService : IDependency
     {
         protected DepartmentEntityService DepartmentEntityService { get; set; }
 
@@ -16,23 +18,22 @@ namespace DepartmentList.Services
 
         public IEnumerable<DepartmentDto> Get(int id, string name, DateTime? creationDate)
         {
-            return Mapper.Map<IEnumerable<DepartmentDto>>(
-                DepartmentEntityService.Get(id, GetFilter(name, creationDate)));
+            return DepartmentEntityService.Get(id, GetFilter(name, creationDate)).Map();
         }
 
         public IEnumerable<DepartmentDto> Get(string name, DateTime? creationDate)
         {
-            return Mapper.Map<IEnumerable<DepartmentDto>>(DepartmentEntityService.Get(GetFilter(name, creationDate)));
+            return DepartmentEntityService.Get(GetFilter(name, creationDate)).Map();
         }
 
         public IEnumerable<DepartmentDto> GetImmediateChilds(int id)
         {
-            return Mapper.Map<IEnumerable<DepartmentDto>>(DepartmentEntityService.GetImmediateChilds(id));
+            return DepartmentEntityService.GetImmediateChilds(id).Map();
         }
 
         public IEnumerable<DepartmentDto> GetImmediateRootChilds()
         {
-            return Mapper.Map<IEnumerable<DepartmentDto>>(DepartmentEntityService.GetImmediateRootChilds());
+            return DepartmentEntityService.GetImmediateRootChilds().Map();
         }
 
         public DepartmentDto AddDepartment(DepartmentDto dto)
@@ -40,7 +41,7 @@ namespace DepartmentList.Services
             var departmentEntity = !dto.ParentId.HasValue
                 ? DepartmentEntityService.AddDepartmentToRoot(dto.Name, dto.CreationDate)
                 : DepartmentEntityService.AddDepartmentToParent(dto.ParentId.Value, dto.Name, dto.CreationDate);
-            return Mapper.Map<DepartmentDto>(departmentEntity);
+            return departmentEntity.Map();
         }
 
         public void Update(DepartmentDto dto)

@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using DepartmentList.Infrastructure.Extentions;
+using DepartmentList.Infrastructure.Extensions;
 using FluentJsonNet;
 using Newtonsoft.Json;
 

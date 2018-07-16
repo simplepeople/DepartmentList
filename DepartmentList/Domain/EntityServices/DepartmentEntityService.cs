@@ -3,10 +3,11 @@ using System.Data.Entity.Hierarchy;
 using System.Linq;
 using DepartmentList.Domain.Contexts;
 using DepartmentList.Domain.Entities;
+using DepartmentList.Infrastructure.IoC;
 
 namespace DepartmentList.Domain.EntityServices
 {
-    public class DepartmentEntityService: EntityServiceBase<DepartmentContext, DepartmentEntity>
+    public class DepartmentEntityService: EntityServiceBase<DepartmentContext, DepartmentEntity>, IDependency
     {
         private DepartmentEntity GetRoot()
         {

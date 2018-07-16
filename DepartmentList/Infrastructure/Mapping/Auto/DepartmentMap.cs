@@ -8,7 +8,7 @@ namespace DepartmentList.Infrastructure.Mapping.Auto
     {
         public DepartmentMap()
         {
-            CreateMap<DepartmentEntity, DepartmentDto>().ForMember(x => x.HasChilds, x => x.MapFrom(y => y.HasChilds));
+            CreateMap<DepartmentEntity, DepartmentDto>().ReverseMap();
         }
     }
 }

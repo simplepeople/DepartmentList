@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Http;
-using DepartmentList.Domain;
 using DepartmentList.Dto;
 using DepartmentList.Services;
 
