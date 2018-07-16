@@ -11,8 +11,8 @@ namespace DepartmentList.Services
     {
         protected DepartmentEntityService DepartmentEntityService { get; set; }
 
-        private static Func<DepartmentEntity, bool> GetFilter(string name, DateTime? creationDate) => (x) =>
-            (name == null || x.Name.Contains(name)) && (creationDate == null || x.CreationDate == creationDate);
+        private static Func<DepartmentEntity, bool> GetFilter(string name, DateTime? creationDate) => entity =>
+            (name == null || entity.Name.Contains(name)) && (creationDate == null || entity.CreationDate == creationDate);
 
         public IEnumerable<DepartmentDto> Get(int id, string name, DateTime? creationDate)
         {
